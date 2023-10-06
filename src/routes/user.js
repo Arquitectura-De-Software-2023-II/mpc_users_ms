@@ -4,6 +4,7 @@ const Joi = require('@hapi/joi')
 // const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const userSchema = require("../models/user");
+const verifyToken = require('./validate-token');
 
 const schemaRegister = Joi.object({
     name: Joi.string().min(6).max(255).required(),
@@ -123,6 +124,10 @@ router.get("/getall", (req, res) => {
       .then((data) => res.json(data))
       .catch((error) => res.json({ message: error }));
   });
+
+  router.get('/verify', verifyToken,(req, res) => {
+    res.status(200).json(req.body.user)
+  })
 
 
 module.exports = router
