@@ -5,10 +5,6 @@ const petSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  age: {
-    type: Number,
-    required: true
-  },
   color: {
     type: String,
     required: true
@@ -18,9 +14,14 @@ const petSchema = mongoose.Schema({
     required: true,
   },
   owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
+  animal: {
     type: String,
     required: true,
-  }
+    default: "dog"
+  },
 });
 
 module.exports = mongoose.model('pet', petSchema);

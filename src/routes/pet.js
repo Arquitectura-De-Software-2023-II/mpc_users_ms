@@ -1,13 +1,23 @@
 const express = require("express");
 const petSchema = require("../models/pet");
+const verifyToken = require("./validate-token");
 
 const router = express.Router();
 
 // create pet
 router.post("/post", (req, res) => {
-  const pet = petSchema(req.body);
+  const pet = petSchema(req.body.pet);
   pet
     .save()
+    .then((data) => res.json(data))
+    .catch((error) => res.json({ message: error }));
+});
+
+// get all pets of a user
+router.get("/getall/:id", (req, res) => {
+  const { id } = req.params;
+  petSchema
+    .find({ owner: id })
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: error }));
 });
