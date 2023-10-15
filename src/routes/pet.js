@@ -17,7 +17,7 @@ router.post("/post", (req, res) => {
 router.get("/getall/:id", (req, res) => {
   const { id } = req.params;
   petSchema
-    .find({ owner: id })
+    .find({ owner: id },{__v:0})
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: error }));
 });
