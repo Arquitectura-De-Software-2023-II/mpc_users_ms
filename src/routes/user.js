@@ -19,6 +19,46 @@ const schemaLogin = Joi.object({
     password: Joi.string().min(6).max(1024).required()
 })
 
+const ldap = require('ldap');
+const client = ldap.createClient({
+    url: 'ldap://localhost',
+    searchBase: 'dc=example,dc=com'
+});
+
+client.bind('cn=admin,dc=example,dc=com', 'password', (err) => {
+    if (err) {
+        console.error('Error binding to LDAP server:', err);
+        return;
+    }
+
+    client.search({
+        filter: `(&(email={email})&(objectClass=person))`,
+        scope: ldap.constants.SUBTREE,
+        attributes: ['dn', 'name', 'email', 'role']
+    }, (err, searchResult) => {
+        if (err) {
+            console.error('Error searching LDAP server:', err);
+            return;
+        }
+
+        const user = searchResult.entries[0].toObject();
+
+        if (!user) {
+            console.error('User not found');
+            return;
+        }
+
+        // Validar la contraseña del usuario
+        if (user.password !== req.body.password) {
+            console.error('Invalid password');
+            return;
+        }
+
+        // Autenticar y autorizar al usuario
+        console.log('User authenticated and authorized');
+    });
+});
+
 // LOGIN
 router.post('/login', async (req, res) => {
     // Validaciones de login
