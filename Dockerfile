@@ -8,7 +8,7 @@ RUN npm install --production @mapbox/node-pre-gyp@1.0.11 node-addon-api@5.0.0
 
 COPY . .
 
-EXPOSE 8080
+EXPOSE 3080
 
 CMD ["npm", "run", "start"]
 
