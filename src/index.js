@@ -37,7 +37,7 @@ app.get('/', (req, res) => {
   res.json({ mensaje: 'My Auth Api Rest' })
 })
 
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 3080
 app.listen(PORT, () => {
   console.log(`Tu servidor está corriendo en el puerto: ${PORT}`)
 })
